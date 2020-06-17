@@ -1,0 +1,25 @@
+tomcat_calima:
+  container_name: tomcat_calima
+  environment:
+    JAVA_OPTS: -Dcalima.datasource.url=jdbc:postgresql://postgres_calima:5432/calima
+  image: projetusti/calima:stable
+  links:
+  - postgres_calima
+  mem_limit: 2539309568
+  ports:
+  - 8081:8080
+  volumes:
+   - ./tomcat/work:/usr/local/tomcat/work
+postgres_calima:
+  container_name: postgres_calima
+  ports:
+  - 5433:5432
+  environment:
+  - DEBUG=false
+  - POSTGRES_USER=postgres
+  - POSTGRES_PASSWORD=masterkey
+  image: postgres:10-alpine
+  volumes:
+  - ./postgres/bkp:/opt/bkp
+  - ./postgres/sql:/opt/sql
+  - ./postgres/data:/var/lib/postgresql/data
